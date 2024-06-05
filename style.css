@@ -1,0 +1,74 @@
+.date-time {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+}
+
+htlm,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: start;
+  width: 98vw;
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: saturate(180%) blur(10px);
+  border-radius: 0px;
+  padding: 1vw;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  overflow: hidden;
+}
+
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .main {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+}
+
+.today {
+  display: flex;
+  flex-direction: column;
+  min-height: 98vh;
+  max-height: 98vh;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.date {
+  font-size: 25px;
+  font-weight: 700;
+  color: white;
+}
+
+.img {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url("./assets/bg.avif");
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.time {
+  color: white;
+  font-size: 30px;
+  font-weight: bold;
+}
