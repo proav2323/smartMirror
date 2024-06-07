@@ -254,7 +254,7 @@ function getNews() {
               weatherTem.innerHTML = int + 1;
             }
           }, 200);
-        }, 3000);
+        }, 2500);
       }
     }
   });
