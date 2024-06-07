@@ -65,6 +65,7 @@ const weatherName = document.querySelector(".weatherName");
 const sportsContainer = document.querySelector(".sports-container");
 const gkContainer = document.querySelector(".gk-container");
 const newsSpan = document.querySelectorAll(".news");
+const city = document.querySelector(".city");
 
 const date = new Date(); // date for time
 
@@ -127,7 +128,7 @@ function positionDenied() {
 // get weather
 async function displayLocation(lat, lng) {
   fetch(
-    `https://api.tomorrow.io/v4/weather/forecast?location=${lat},${lng}&apikey=CPG0QdKDgUOZIC6kgwsfi0ojvrsR2DJe`
+    `https://api.tomorrow.io/v4/weather/forecast?location=${lat},${lng}&apikey=${process.env.TOMORROW_API_KEY}`
   )
     .then(async (dataa) => {
       if (dataa) {
@@ -163,7 +164,7 @@ function getLocationInGeo(lat, lng) {
 
   request.open(
     "GET",
-    "https://api.ipdata.co/?api-key=3243b9adeaabcf0ffd2b457ab5cd9036a7241ab059f291e1653f10eb"
+    `https://api.ipdata.co/?api-key=${process.env.IPDATA_API_KEY}`
   );
 
   request.setRequestHeader("Accept", "application/json");
@@ -180,6 +181,7 @@ function getLocationInGeo(lat, lng) {
 // chnage location
 function chnageLocation(data) {
   userLocation = JSON.parse(data);
+  city.innerHTML = `${userLocation.city}, ${userLocation.country_name}`;
 }
 
 function getWeather(code) {
@@ -189,7 +191,7 @@ function getWeather(code) {
 
 function getSportsNews() {
   fetch(
-    "https://newsdata.io/api/1/latest?apikey=pub_45798668926d5266e6f68347256fbc537d2f6&q=sports"
+    `https://newsdata.io/api/1/latest?apikey=${process.env.NEWS_API_KEY}&q=sports`
   ).then(async (dat) => {
     if (dat) {
       const data = await dat.json();
@@ -208,7 +210,7 @@ function getSportsNews() {
 
 function getNews() {
   fetch(
-    "https://newsdata.io/api/1/latest?apikey=pub_45798668926d5266e6f68347256fbc537d2f6"
+    `https://newsdata.io/api/1/latest?apikey=${process.env.NEWS_API_KEY}`
   ).then(async (dat) => {
     if (dat) {
       const data = await dat.json();
