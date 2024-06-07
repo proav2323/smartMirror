@@ -44,6 +44,22 @@ body {
   padding: 1vw;
 }
 
+.load {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 98vw;
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: saturate(180%) blur(10px);
+  border-radius: 0px;
+  padding: 1vw;
+}
+
 .spinner-border {
   display: inline-block;
   width: 40px;
@@ -57,6 +73,24 @@ body {
 @keyframes spinner-border {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes left {
+  from {
+    transform: translateX(-100vw);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes right {
+  from {
+    transform: translateX(200vw);
+  }
+  to {
+    transform: translateX(0);
   }
 }
 
@@ -77,6 +111,11 @@ body {
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
   }
+
+  .load {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
 }
 
 .today {
@@ -86,6 +125,10 @@ body {
   max-height: 98vh;
   justify-content: space-between;
   align-items: start;
+  animation-name: left;
+  animation-duration: 2s;
+  animation-delay: 0s;
+  animation-iteration-count: 1;
 }
 
 .date {
@@ -163,6 +206,10 @@ body {
   max-height: 98vh;
   justify-content: space-between;
   align-items: end;
+  animation-name: right;
+  animation-duration: 2s;
+  animation-delay: 0s;
+  animation-iteration-count: 1;
 }
 
 .sports-container {
@@ -205,4 +252,10 @@ body {
   font-weight: 900;
   color: rgb(234, 199, 199);
   margin: 10px 0 10px 0;
+}
+
+.text {
+  font-size: 30px;
+  color: white;
+  font-weight: 900;
 }

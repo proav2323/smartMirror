@@ -69,6 +69,7 @@ const city = document.querySelector(".city");
 const main = document.querySelector(".main");
 const loading = document.querySelector(".loading");
 const loadingBar = document.querySelector(".value");
+const noGeo = document.querySelector(".load");
 
 const date = new Date(); // date for time
 
@@ -103,6 +104,8 @@ function getLocation() {
       enableHighAccuracy: true,
     });
   } else {
+    isLoading = false;
+    noGeo.style.display = "flex";
     console.log("goeLocation not supported by browser");
   }
 }
@@ -110,10 +113,13 @@ function getLocation() {
 // permisiion denied
 function report(state) {
   console.log(`Permission ${state}`);
+  isLoading = false;
+  noGeo.style.display = "flex";
 }
 
 // revelei locaction
 function revealPosition(pos) {
+  noGeo.style.display = "none";
   userLocation = pos;
   var x = pos.coords.latitude;
   var y = pos.coords.longitude;
@@ -126,6 +132,8 @@ function revealPosition(pos) {
 function positionDenied() {
   console.log("Unable to retrieve your location.");
   userLocation = null;
+  isLoading = false;
+  noGeo.style.display = "flex";
 }
 
 // get weather
@@ -157,7 +165,7 @@ async function displayLocation(lat, lng) {
 // chnage wather
 function changeWeather(data) {
   weather = data;
-  weatherTem.innerHTML = data.values.temperatureAvg;
+
   getWeather(data.values.weatherCodeMax);
 }
 
@@ -236,14 +244,25 @@ function getNews() {
           gkContainer.appendChild(span);
         }
         isLoading = false;
+        setTimeout(() => {
+          const weatherInt = setInterval(() => {
+            const int = parseFloat(Number(weatherTem.innerHTML).toFixed(2));
+            if (int + 1 >= weather.values.temperatureAvg.toFixed(0)) {
+              weatherTem.innerHTML = `${weather.values.temperatureAvg}`;
+              clearInterval(weatherInt);
+            } else {
+              weatherTem.innerHTML = int + 1;
+            }
+          }, 200);
+        }, 3000);
       }
     }
   });
 }
 
-// getLocation(); // get user locationa nd permisiion
-// getSportsNews(); // get sports news
-// getNews(); // get general knowledge news
+getLocation(); // get user location nd permisiion
+getSportsNews(); // get sports news
+getNews(); // get general knowledge news
 
 const intEta = setInterval(() => {
   if (isLoading === true) {
