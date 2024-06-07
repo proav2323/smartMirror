@@ -72,3 +72,88 @@ body {
   font-size: 30px;
   font-weight: bold;
 }
+
+.weatherImage {
+  width: 120px;
+  height: 120px;
+}
+
+.weather-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+}
+
+.wet {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  gap: 10px;
+}
+
+.weatherName {
+  font-size: 20px;
+  color: white;
+  font-weight: 500;
+}
+
+.weather-tem {
+  font-size: 30px;
+  color: white;
+  font-weight: bold;
+}
+
+.cel {
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+}
+
+.tem-container {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items: start;
+  justify-content: start;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  min-height: 98vh;
+  max-height: 98vh;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.sports-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 10px;
+  padding: 10px;
+}
+
+.s-heading {
+  font-size: 30px;
+  font-weight: 900;
+  color: green;
+}
+
+.news {
+  color: white;
+  font-size: 15px;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.gk-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 10px;
+  padding: 10px;
+}

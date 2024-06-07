@@ -2,11 +2,69 @@ let userLocation = null;
 let userCity = null;
 let weather = null;
 let isLoading = true;
+let weather_code_mapping_image = {
+  0: "Unknown",
+  1000: "./assets/clear.png",
+  1100: "./assets/mostlyClear.png",
+  1101: "./assets/mostlyClear.png",
+  1102: "./assets/Partly-Cloudy.png",
+  1001: "./assets/cloudy.png",
+  2000: "./assets/fog.png",
+  2100: "./assets/fog.png",
+  4000: "./assets/dizzle.png",
+  4001: "./assets/rain.png",
+  4200: "./assets/rain.png",
+  4201: "./assets/heavyRain.png",
+  5000: "./assets/snow.png",
+  5001: "./assets/flurries.png",
+  5100: "./assets/snow.png",
+  5101: "./assets/heavySnow.png",
+  6000: "./assets/frezzingDribble.png",
+  6001: "./assets/frezzingDribble.png",
+  6200: "./assets/frezzingDribble.png",
+  6201: "./assets/heavyFreezingRain.png",
+  7000: "./assets/fr.png",
+  7101: "./assets/fr.png",
+  7102: "./assets/fr.png",
+  8000: "./assets/thunderstorm.png",
+};
+
+let weather_code_name = {
+  0: "Unknown",
+  1000: "Clear",
+  1100: "Mostly Clear",
+  1101: "Partly Cloudy",
+  1102: "Mostly Cloudy",
+  1001: "Cloudy",
+  2000: "Fog",
+  2100: "Light Fog",
+  4000: "Drizzle",
+  4001: "Rain",
+  4200: "Light Rain",
+  4201: "Heavy Rain",
+  5000: "Snow",
+  5001: "Flurries",
+  5100: "Light Snow",
+  5101: "Heavy Snow",
+  6000: "Freezing Drizzle",
+  6001: "Freezing Rain",
+  6200: "Light Freezing Rain",
+  6201: "Heavy Freezing Rain",
+  7000: "Ice Pellets",
+  7101: "Heavy Ice Pellets",
+  7102: "Light Ice Pellets",
+  8000: "Thunderstorm",
+};
 
 const weatherTem = document.querySelector(".weather-tem");
 const time = document.querySelector(".time");
 const geoBtn = document.querySelector(".geoBtn");
 const dateHtml = document.querySelector(".date");
+const weatherImg = document.querySelector(".weatherImage");
+const weatherName = document.querySelector(".weatherName");
+const sportsContainer = document.querySelector(".sports-container");
+const gkContainer = document.querySelector(".gk-container");
+const newsSpan = document.querySelectorAll(".news");
 
 const date = new Date(); // date for time
 
@@ -96,6 +154,7 @@ async function displayLocation(lat, lng) {
 function changeWeather(data) {
   weather = data;
   weatherTem.innerHTML = data.values.temperatureAvg;
+  getWeather(data.values.weatherCodeMax);
 }
 
 // get user city
@@ -123,4 +182,48 @@ function chnageLocation(data) {
   userLocation = JSON.parse(data);
 }
 
+function getWeather(code) {
+  weatherName.innerHTML = weather_code_name[code];
+  weatherImg.setAttribute("src", weather_code_mapping_image[code]);
+}
+
+function getSportsNews() {
+  fetch(
+    "https://newsdata.io/api/1/latest?apikey=pub_45798668926d5266e6f68347256fbc537d2f6&q=sports"
+  ).then(async (dat) => {
+    if (dat) {
+      const data = await dat.json();
+      for (let i = 0; i < 2; i++) {
+        const span = document.createElement("a");
+
+        span.setAttribute("href", data[i].link);
+        span.className = "news";
+
+        sportsContainer.appendChild(span);
+      }
+      console.log(data);
+    }
+  });
+}
+
+function getNews() {
+  fetch(
+    "https://newsdata.io/api/1/latest?apikey=pub_45798668926d5266e6f68347256fbc537d2f6"
+  ).then(async (dat) => {
+    if (dat) {
+      const data = await dat.json();
+      for (let i = 0; i < 2; i++) {
+        const span = document.createElement("a");
+
+        span.setAttribute("href", data[i].link);
+        span.className = "news";
+
+        gkContainer.appendChild(span);
+      }
+    }
+  });
+}
+
 // getLocation(); // get user locationa nd permisiion
+// getSportsNews(); // get sports news
+// getNews(); // get general knowledge news
