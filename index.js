@@ -66,6 +66,9 @@ const sportsContainer = document.querySelector(".sports-container");
 const gkContainer = document.querySelector(".gk-container");
 const newsSpan = document.querySelectorAll(".news");
 const city = document.querySelector(".city");
+const main = document.querySelector(".main");
+const loading = document.querySelector(".loading");
+const loadingBar = document.querySelector(".value");
 
 const date = new Date(); // date for time
 
@@ -128,7 +131,7 @@ function positionDenied() {
 // get weather
 async function displayLocation(lat, lng) {
   fetch(
-    `https://api.tomorrow.io/v4/weather/forecast?location=${lat},${lng}&apikey=${process.env.TOMORROW_API_KEY}`
+    `https://api.tomorrow.io/v4/weather/forecast?location=${lat},${lng}&apikey=CPG0QdKDgUOZIC6kgwsfi0ojvrsR2DJe`
   )
     .then(async (dataa) => {
       if (dataa) {
@@ -164,7 +167,7 @@ function getLocationInGeo(lat, lng) {
 
   request.open(
     "GET",
-    `https://api.ipdata.co/?api-key=${process.env.IPDATA_API_KEY}`
+    "https://api.ipdata.co/?api-key=3243b9adeaabcf0ffd2b457ab5cd9036a7241ab059f291e1653f10eb"
   );
 
   request.setRequestHeader("Accept", "application/json");
@@ -191,17 +194,23 @@ function getWeather(code) {
 
 function getSportsNews() {
   fetch(
-    `https://newsdata.io/api/1/latest?apikey=${process.env.NEWS_API_KEY}&q=sports`
+    "https://newsdata.io/api/1/latest?apikey=pub_45798668926d5266e6f68347256fbc537d2f6&q=sports"
   ).then(async (dat) => {
     if (dat) {
       const data = await dat.json();
-      for (let i = 0; i < 2; i++) {
-        const span = document.createElement("a");
+      if (data) {
+        console.log(data);
+        for (let i = 0; i < 2; i++) {
+          const span = document.createElement("a");
 
-        span.setAttribute("href", data[i].link);
-        span.className = "news";
+          span.setAttribute("href", data.results[i].link);
+          span.className = "news";
+          const shortTitle = data.results[i].title;
+          let truncatedStr = shortTitle.substring(0, 50) + "..."; // get the first 10 characters
+          span.innerHTML = truncatedStr;
 
-        sportsContainer.appendChild(span);
+          sportsContainer.appendChild(span);
+        }
       }
       console.log(data);
     }
@@ -210,17 +219,23 @@ function getSportsNews() {
 
 function getNews() {
   fetch(
-    `https://newsdata.io/api/1/latest?apikey=${process.env.NEWS_API_KEY}`
+    "https://newsdata.io/api/1/latest?apikey=pub_45798668926d5266e6f68347256fbc537d2f6"
   ).then(async (dat) => {
     if (dat) {
       const data = await dat.json();
-      for (let i = 0; i < 2; i++) {
-        const span = document.createElement("a");
+      if (data) {
+        for (let i = 0; i < 2; i++) {
+          const span = document.createElement("a");
 
-        span.setAttribute("href", data[i].link);
-        span.className = "news";
+          span.setAttribute("href", data.results[i].link);
+          span.className = "news";
+          const shortTitle = data.results[i].title;
+          let truncatedStr = shortTitle.substring(0, 50) + "..."; // get the first 10 characters
+          span.innerHTML = truncatedStr;
 
-        gkContainer.appendChild(span);
+          gkContainer.appendChild(span);
+        }
+        isLoading = false;
       }
     }
   });
@@ -229,3 +244,14 @@ function getNews() {
 // getLocation(); // get user locationa nd permisiion
 // getSportsNews(); // get sports news
 // getNews(); // get general knowledge news
+
+const intEta = setInterval(() => {
+  if (isLoading === true) {
+    main.style.display = "none";
+    loading.style.display = "flex";
+  } else {
+    main.style.display = "flex";
+    loading.style.display = "none";
+    clearInterval(intEta);
+  }
+}, 1000);
